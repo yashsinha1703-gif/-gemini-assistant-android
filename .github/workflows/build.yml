@@ -1,0 +1,54 @@
+
+    name: Build Gemini Assistant APK
+
+    on:
+      push:
+        branches: [ "main" ]
+      workflow_dispatch:
+
+    permissions:
+      contents: write
+
+    jobs:
+      build:
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v4
+
+          - name: Set up JDK 17
+            uses: actions/setup-java@v4
+            with:
+              java-version: '17'
+              distribution: 'temurin'
+
+          - name: Setup Gradle
+            uses: gradle/actions/setup-gradle@v4
+
+          - name: Grant execute permission for gradlew
+            run: chmod +x gradlew
+
+          - name: Build Debug APK
+            run: ./gradlew assembleDebug --no-daemon
+
+          - name: Create Release Directory
+            run: |
+              mkdir -p release-apk
+              cp app/build/outputs/apk/debug/*.apk release-apk/GeminiAssistant-debug.apk
+
+          - name: Upload Artifact
+            uses: actions/upload-artifact@v4
+            with:
+              name: gemini-assistant-debug-apk
+              path: release-apk/GeminiAssistant-debug.apk
+
+          - name: Publish to GitHub Releases
+            uses: softprops/action-gh-release@v2
+            with:
+              tag_name: "v1.0.0"
+              name: "Gemini Assistant APK v1.0.0"
+              body: "Direct APK download for Android phones."
+              files: release-apk/GeminiAssistant-debug.apk
+            env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
