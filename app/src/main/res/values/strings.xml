@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Gemini Assistant</string>
+    <string name="title_welcome">Smart AI Assistant</string>
+    <string name="desc_welcome">Seamless Gemini AI screen awareness, Circle to Search, voice assistant, and Google integration.</string>
+    <string name="btn_set_default_assistant">Set as Default Assistant</string>
+    <string name="btn_google_signin">Sign in with Google</string>
+    <string name="btn_google_signout">Sign Out</string>
+    <string name="btn_save_api_key">Save Gemini API Key</string>
+    <string name="btn_test_assistant">Test Assistant Overlay Now</string>
+    <string name="hint_gemini_api_key">Enter Gemini API Key (from Google AI Studio)</string>
+    <string name="label_circle_to_search">Circle / Select</string>
+    <string name="label_screen_overview">Screen Overview</string>
+    <string name="label_copy_text">Copy Text</string>
+    <string name="label_translate">Translate</string>
+    <string name="label_image_search">Google Lens</string>
+    <string name="label_ask_gemini">Ask Gemini</string>
+    <string name="label_ask_voice">Ask with Voice</string>
+    <string name="prompt_analyzing_screen">Gemini is analyzing your screen…</string>
+    <string name="prompt_analyzing_region">Searching selected region…</string>
+    <string name="prompt_listening">Listening to your question…</string>
+    <string name="prompt_extracting_text">Extracting text from screen…</string>
+    <string name="prompt_translating">Translating text…</string>
+    <string name="msg_text_copied">Text copied to clipboard!</string>
+    <string name="msg_no_text_found">No text detected in selected region.</string>
+    <string name="msg_api_key_saved">Gemini API Key saved successfully!</string>
+    <string name="msg_signed_in">Signed in as %1$s</string>
+    <string name="err_no_api_key">Please enter a valid Gemini API Key first.</string>
+</resources>

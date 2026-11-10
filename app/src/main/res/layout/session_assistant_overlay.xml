@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootAssistantLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#22000000">
+
+    <!-- Interactive Canvas Overlay for Circling / Box-Selecting elements on the screen -->
+    <com.assistant.gemini.ui.CircleSelectionOverlayView
+        android:id="@+id/circleSelectionOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible" />
+
+    <!-- Prompt / Guidance Banner when Circle/Selection is ready -->
+    <LinearLayout
+        android:id="@+id/bannerCirclePrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/bg_action_chip"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:gravity="center_vertical"
+        android:elevation="6dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_sparkle"
+            app:tint="@color/accent_circle_glow"
+            android:contentDescription="Gemini Sparkle" />
+
+        <TextView
+            android:id="@+id/textBannerGuide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Circle or tap anything to search, copy, or translate"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <!-- Floating Action Toolbar that appears when a region is selected -->
+    <LinearLayout
+        android:id="@+id/layoutSelectionFloatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="210dp"
+        android:background="@drawable/bg_action_chip"
+        android:orientation="horizontal"
+        android:padding="6dp"
+        android:gravity="center_vertical"
+        android:elevation="12dp"
+        android:visibility="gone">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFloatingCopy"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_marginEnd="4dp"
+            android:text="@string/label_copy_text"
+            android:textSize="12sp"
+            app:cornerRadius="19dp"
+            app:icon="@drawable/ic_copy"
+            app:iconSize="16dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFloatingTranslate"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_marginEnd="4dp"
+            android:text="@string/label_translate"
+            android:textSize="12sp"
+            app:cornerRadius="19dp"
+            app:icon="@drawable/ic_translate"
+            app:iconSize="16dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFloatingLens"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_marginEnd="4dp"
+            android:text="@string/label_image_search"
+            android:textSize="12sp"
+            app:cornerRadius="19dp"
+            app:icon="@drawable/ic_lens"
+            app:iconSize="16dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFloatingGemini"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:text="@string/label_ask_gemini"
+            android:textSize="12sp"
+            app:cornerRadius="19dp"
+            app:icon="@drawable/ic_sparkle"
+            app:iconSize="16dp" />
+
+    </LinearLayout>
+
+    <!-- Assistant Bottom Sheet Container -->
+    <LinearLayout
+        android:id="@+id/assistantBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_sheet"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="20dp"
+        android:elevation="16dp">
+
+        <!-- Top Drag Handle & Gemini Gradient Bar -->
+        <View
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:background="#44FFFFFF" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginBottom="14dp"
+            android:background="@drawable/bg_gemini_bar" />
+
+        <!-- Header: Gemini Icon + Status + Progress -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_sparkle"
+                app:tint="@color/gemini_gradient_center"
+                android:contentDescription="Gemini" />
+
+            <TextView
+                android:id="@+id/textAssistantStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:text="Select an area or ask Gemini"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <ProgressBar
+                android:id="@+id/progressLoading"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:indeterminateTint="@color/accent_circle_glow"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- Response Content Area (Scrollable) -->
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollResponse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:maxHeight="220dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textResponseContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_primary"
+                    android:textSize="14sp"
+                    android:lineSpacingExtra="3dp" />
+
+                <!-- Action row below response -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCopyResult"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:text="Copy"
+                        android:textSize="12sp"
+                        app:icon="@drawable/ic_copy"
+                        app:iconSize="14dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnWebSearch"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="8dp"
+                        android:text="Search Google"
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        app:cornerRadius="18dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <!-- Quick Action Buttons Row -->
+        <HorizontalScrollView
+            android:id="@+id/scrollActions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:layout_marginBottom="12dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnActionCopyAll"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Copy Screen Text"
+                    android:textSize="12sp"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/ic_copy"
+                    app:iconSize="16dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnActionTranslateScreen"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Translate Screen"
+                    android:textSize="12sp"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/ic_translate"
+                    app:iconSize="16dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnActionOverview"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/label_screen_overview"
+                    android:textSize="12sp"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/ic_sparkle"
+                    app:iconSize="16dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnActionResetSelection"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Reset Selection"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- Query Input Field & Mic Button -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editQueryInput"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_sheet"
+                android:backgroundTint="#2D3035"
+                android:hint="Ask anything about this screen..."
+                android:imeOptions="actionSend"
+                android:inputType="text"
+                android:paddingHorizontal="16dp"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_secondary"
+                android:textSize="14sp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabVoiceMic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:contentDescription="Speak"
+                android:src="@drawable/ic_mic"
+                app:backgroundTint="@color/primary"
+                app:elevation="4dp"
+                app:fabCustomSize="48dp"
+                app:tint="@android:color/white" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
