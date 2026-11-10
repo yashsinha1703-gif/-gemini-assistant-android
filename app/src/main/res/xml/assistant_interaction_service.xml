@@ -3,5 +3,4 @@
     android:sessionService="com.assistant.gemini.service.GeminiVoiceInteractionSessionService"
     android:recognitionService="com.assistant.gemini.service.AssistantRecognitionService"
     android:supportsAssist="true"
-    android:supportsLaunchFromKeyguard="true"
     android:supportsLocalInteraction="true" />
